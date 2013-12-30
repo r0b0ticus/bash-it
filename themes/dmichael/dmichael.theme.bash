@@ -35,7 +35,13 @@ pure_prompt() {
     ps_root_at="${red}@${normal}"
 
     # make it work
-    case $(id -u) in
+    case $(uname) in
+      SunOS) user_id="$(/usr/xpg4/bin/id -u)"
+        ;;
+      *) user_id="$(id -u)"
+    esac
+
+    case "$user_id" in
           0) PS1="$ps_root$ps_root_at$ps_root_host $ps_path$(scm_prompt)$ps_root_mark"
             ;;
           *) PS1="$ps_user$ps_at$ps_host $ps_path$(scm_prompt)$ps_user_mark"
